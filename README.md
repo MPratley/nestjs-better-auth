@@ -1,5 +1,9 @@
 # NestJS Better Auth Integration
 
+## This is a fork
+
+Forked from <https://github.com/ThallesP/nestjs-better-auth> - I've added support for using nestJs' rawBody option to pass the raw body to better-auth, instead of disabling the body parser. The upstream library will probably be better maintained and supported than this fork, so if you're happy to disable the body parser, I recommend using the upstream library.
+
 A comprehensive NestJS integration library for [Better Auth](https://www.better-auth.com/), providing seamless authentication and authorization for your NestJS applications.
 
 ## Installation
@@ -81,11 +85,11 @@ import { UseGuards } from "@nestjs/common";
 import { AuthGuard } from '@thallesp/nestjs-better-auth';
 
 @WebSocketGateway({
-	path: "/ws",
-	namespace: "test",
-	cors: {
-		origin: "*",
-	},
+ path: "/ws",
+ namespace: "test",
+ cors: {
+  origin: "*",
+ },
 })
 @UseGuards(AuthGuard)
 export class TestGateway { /* ... */ }
