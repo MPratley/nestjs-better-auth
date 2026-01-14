@@ -13,6 +13,50 @@ describe("rest auth e2e", () => {
 		await testSetup.app.close();
 	});
 
+	it("should sign up via HTTP POST to auth endpoint", async () => {
+		const email = faker.internet.email().toLowerCase();
+		const password = faker.internet.password({ length: 10 });
+		const name = faker.person.fullName();
+
+		const response = await request(testSetup.app.getHttpServer())
+			.post("/api/auth/sign-up/email")
+			.send({ email, password, name })
+			.expect(200);
+
+		expect(response.body).toMatchObject({
+			user: expect.objectContaining({
+				email,
+				name,
+			}),
+			token: expect.any(String),
+		});
+	});
+
+	it("should sign in via HTTP POST to auth endpoint", async () => {
+		const email = faker.internet.email().toLowerCase();
+		const password = faker.internet.password({ length: 10 });
+		const name = faker.person.fullName();
+
+		// First sign up
+		await request(testSetup.app.getHttpServer())
+			.post("/api/auth/sign-up/email")
+			.send({ email, password, name })
+			.expect(200);
+
+		// Then sign in
+		const response = await request(testSetup.app.getHttpServer())
+			.post("/api/auth/sign-in/email")
+			.send({ email, password })
+			.expect(200);
+
+		expect(response.body).toMatchObject({
+			user: expect.objectContaining({
+				email,
+			}),
+			token: expect.any(String),
+		});
+	});
+
 	it("should not be able to access protected route without auth", async () => {
 		await request(testSetup.app.getHttpServer())
 			.get("/test/protected")

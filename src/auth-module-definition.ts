@@ -5,7 +5,6 @@ import type { Request, Response, NextFunction } from "express";
 export type AuthModuleOptions<A = Auth> = {
 	auth: A;
 	disableTrustedOriginsCors?: boolean;
-	disableBodyParser?: boolean;
 	middleware?: (req: Request, res: Response, next: NextFunction) => void;
 };
 

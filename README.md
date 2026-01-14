@@ -32,9 +32,9 @@ Before you start, make sure you have:
 
 ## Basic Setup
 
-**1. Disable Body Parser**
+**1. Enable Raw Body**
 
-Disable NestJS's built-in body parser to allow Better Auth to handle the raw request body:
+Enable NestJS's raw body option to allow Better Auth to access the original request body:
 
 ```ts title="main.ts"
 import { NestFactory } from "@nestjs/core";
@@ -42,8 +42,7 @@ import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    // Don't worry, the library will automatically re-add the default body parsers.
-    bodyParser: false,
+    rawBody: true,
   });
   await app.listen(process.env.PORT ?? 3333);
 }
@@ -338,7 +337,6 @@ When configuring `AuthModule.forRoot()`, you can provide options to customize th
 AuthModule.forRoot({
   auth,
   disableTrustedOriginsCors: false,
-  disableBodyParser: false,
   disableGlobalAuthGuard: false,
   disableControllers: false,
 });
@@ -349,7 +347,6 @@ The available options are:
 | Option                      | Default | Description                                                                                                                                                              |
 | --------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `disableTrustedOriginsCors` | `false` | When set to `true`, disables the automatic CORS configuration for the origins specified in `trustedOrigins`. Use this if you want to handle CORS configuration manually. |
-| `disableBodyParser`         | `false` | When set to `true`, disables the automatic body parser middleware. Use this if you want to handle request body parsing manually.                                         |
 | `disableGlobalAuthGuard`    | `false` | When set to `true`, does not register `AuthGuard` as a global guard. Use this if you prefer to apply `AuthGuard` manually or register it yourself via `APP_GUARD`.       |
 | `disableControllers`        | `false` | When set to `true`, does not register any controllers. Use this if you want to handle routes manually.                                                                   |
 | `middleware`                | `undefined` | Optional middleware function that wraps the Better Auth handler. Receives `(req, res, next)` parameters. Useful for integrating with request-scoped libraries like MikroORM's RequestContext. |

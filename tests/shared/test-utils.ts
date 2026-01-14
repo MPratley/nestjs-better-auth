@@ -81,7 +81,7 @@ export async function createTestApp(
 	}).compile();
 
 	const app = moduleRef.createNestApplication(new ExpressAdapter(), {
-		bodyParser: false,
+		rawBody: true,
 	});
 
 	await app.init();
