@@ -33,4 +33,4 @@ jobs:
         run: bun run test
 
       - name: Release to NPM
-        run: bun publish
+        run: bunx npm publish --provenance

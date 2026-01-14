@@ -1,5 +1,6 @@
 {
 	"name": "@maevu/nestjs-better-auth",
+	"repository": "https://github.com/MPratley/nestjs-better-auth",
 	"version": "3.0.1",
 	"description": "Better Auth for NestJS",
 	"author": "Marcus Pratley",
